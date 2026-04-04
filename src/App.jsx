@@ -19,21 +19,14 @@ import {
   routeTitles,
   siteContent,
   supportingProjects,
-  technicalAreas,
 } from "./data/portfolio";
-import { AssetPanel, Badge, Button, Card, Icon, Section } from "./components/ui";
+import { Badge, Button, Card, Icon, Section } from "./components/ui";
 import { PhasePortrait } from "./components/PhasePortrait";
 import { BifurcationDivider } from "./components/BifurcationDivider";
 import { DoublePendulum } from "./components/DoublePendulum";
-import { FourierEpicycles } from "./components/FourierEpicycles";
 import { KalmanDemo } from "./components/KalmanDemo";
-import { LorenzAttractor } from "./components/LorenzAttractor";
 import { LSystemBackdrop } from "./components/LSystemBackdrop";
 import { MandelbrotBackdrop } from "./components/MandelbrotBackdrop";
-import { ContactBodePlot } from "./components/ContactBodePlot";
-import { ReactionDiffusionBackdrop } from "./components/ReactionDiffusionBackdrop";
-import { RootLocusStrip } from "./components/RootLocusStrip";
-import { VoronoiField } from "./components/VoronoiField";
 import { VorticityFlowBackdrop } from "./components/VorticityFlowBackdrop";
 
 // ─── Floating equations (engineering wallpaper) ──────────────────────────────
@@ -388,10 +381,6 @@ const marginNotesByRoute = {
 };
 
 function getMarginNotes(pathname) {
-  if (pathname === "/") {
-    return marginNotesByRoute.home;
-  }
-
   if (pathname === "/projects") {
     return marginNotesByRoute.projects;
   }
@@ -412,19 +401,7 @@ function getMarginNotes(pathname) {
     return marginNotesByRoute.vision;
   }
 
-  if (pathname === "/resume") {
-    return marginNotesByRoute.resume;
-  }
-
-  if (pathname === "/about") {
-    return marginNotesByRoute.about;
-  }
-
-  if (pathname === "/contact") {
-    return marginNotesByRoute.contact;
-  }
-
-  return marginNotesByRoute.projects;
+  return [];
 }
 
 function ScrollManager() {
@@ -646,7 +623,6 @@ function AppLayout() {
       <ScrollManager />
       <PageTransition />
       <MarginNotes />
-      <RootLocusStrip />
       <TopNav />
       <main>
         <Routes>
@@ -750,6 +726,12 @@ function TopNav() {
 
 function HomePage() {
   const anchorProjects = heroProjects.slice(0, 3);
+  const homeTraits = [
+    "Calm systems, strange margins.",
+    "Model it, build it, question both.",
+    "Most visible lane: nonlinear aircraft control.",
+    "Hardware still gets the last word.",
+  ];
 
   return (
     <div className="shell page-stack">
@@ -764,6 +746,7 @@ function HomePage() {
                 Mech engineer who wandered into controls, got stuck on eigenvalues, and never left.
               </p>
               <h1>{siteContent.hero.headline}</h1>
+              <p className="home-score__subhead">{siteContent.hero.subhead}</p>
               <p className="home-score__body">{siteContent.hero.body}</p>
               <div className="button-row">
                 <Button as={Link} to="/projects">
@@ -773,114 +756,26 @@ function HomePage() {
                   {siteContent.hero.secondaryCta}
                 </Button>
               </div>
-              <div className="home-score__traits">
-                <div className="glass-list-item">
-                  <strong>Vibe</strong>
-                  Jaded about abstractions, genuinely excited about every domain.
-                </div>
-                <div className="glass-list-item">
-                  <strong>Most visible lane</strong>
-                  Nonlinear aircraft control — where the Jacobian is just the beginning.
-                </div>
-                <div className="glass-list-item">
-                  <strong>Working style</strong>
-                  Model it, build it, question both.
-                </div>
-                <div className="glass-list-item">
-                  <strong>Read after an hour</strong>
-                  He finds the math beautiful and the hardware humbling.
-                </div>
-              </div>
             </div>
           </div>
-          <div className="home-cards-strip reveal reveal--delay">
-            <Card className="home-manifest">
-              <div className="eyebrow">Three movements</div>
-              <h2>Start with the strongest proof, then widen the lens.</h2>
-              <div className="home-preview-list">
-                {siteContent.projectPreview.map((item, index) => (
-                  <Link key={item.route} to={item.route} className="home-preview-item">
-                    <span className="home-preview-item__index">{String(index + 1).padStart(2, "0")}</span>
-                    <div>
-                      <strong>{item.title}</strong>
-                      <span>{item.body}</span>
-                    </div>
-                  </Link>
-                ))}
+          <div className="home-feature-strip reveal reveal--delay">
+            {anchorProjects.map((project, index) => (
+              <Link key={project.id} to={`/projects/${project.id}`} className="home-feature-card">
+                <span className="home-feature-card__index">{String(index + 1).padStart(2, "0")}</span>
+                <strong>{project.title}</strong>
+                <p>{project.hook}</p>
+                <span className="home-feature-card__cue">{project.evidenceCue}</span>
+              </Link>
+            ))}
+          </div>
+          <div className="home-traits-strip">
+            {homeTraits.map((item) => (
+              <div key={item} className="glass-list-item home-trait">
+                {item}
               </div>
-            </Card>
-            <Card className="hero-summary">
-              <div className="eyebrow">Signal at a glance</div>
-              <h2>{siteContent.summary.title}</h2>
-              <p>{siteContent.summary.body}</p>
-              <div className="stack-sm">
-                {siteContent.summary.notes.map((note) => (
-                  <div key={note} className="glass-list-item">
-                    {note}
-                  </div>
-                ))}
-              </div>
-            </Card>
-            <Card className="fourier-card">
-              <div className="eyebrow">Signature transform</div>
-              <FourierEpicycles />
-            </Card>
+            ))}
           </div>
           <BifurcationDivider />
-        </div>
-      </Section>
-
-      <Section id="featured-projects">
-        <div className="section-header">
-          <div className="eyebrow">Anchor studies</div>
-          <h2>Three pages that anchor the portfolio</h2>
-          <p>
-            F-18 leads the controls narrative, SpiRob carries the hardware and embedded
-            story, and SLAM rounds out perception and navigation work.
-          </p>
-        </div>
-        <div className="project-grid project-grid--three project-grid--anchors">
-          {anchorProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
-        </div>
-      </Section>
-
-      <Section id="homepage-signals">
-        <div className="section-header">
-          <div className="eyebrow">Why this site should be easy to read</div>
-          <h2>High-signal portfolio structure</h2>
-          <p>
-            The homepage now points directly at the strongest proof instead of making
-            visitors infer what matters from a generic grid of cards.
-          </p>
-        </div>
-        <div className="bucket-grid bucket-grid--signals">
-          {siteContent.homeSignals.map((item) => (
-            <Card key={item.title} className="text-card">
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </Card>
-          ))}
-        </div>
-      </Section>
-
-      <Section id="focus-areas">
-        <div className="section-header">
-          <div className="eyebrow">Technical focus</div>
-          <h2>Core engineering themes</h2>
-          <p>
-            The site is organized around controls, robotics, autonomy, embedded systems,
-            and simulation-heavy development instead of trying to feel broad for its own
-            sake.
-          </p>
-        </div>
-        <div className="tile-grid tile-grid--areas">
-          {technicalAreas.map((area) => (
-            <Card key={area} className="tile-card">
-              <h3>{area}</h3>
-            </Card>
-          ))}
         </div>
       </Section>
     </div>
@@ -888,69 +783,41 @@ function HomePage() {
 }
 
 function ProjectsPage() {
-  const caseStudyProjects = heroProjects.filter((project) =>
-    ["Flagship case study", "Case study"].includes(project.status),
+  const featuredProjects = heroProjects.filter((project) =>
+    ["f18", "spirob", "slam"].includes(project.id),
   );
   const additionalStudies = heroProjects.filter(
-    (project) => !["Flagship case study", "Case study"].includes(project.status),
+    (project) => !["f18", "spirob", "slam"].includes(project.id),
   );
 
   return (
     <div className="shell page-stack">
       <Section id="projects">
-        <div className="projects-masthead">
-          <div className="section-header">
-            <div className="eyebrow">Selected projects</div>
-            <h1>Engineering work with technical depth</h1>
-            <p>
-              A curated set of projects across nonlinear control, robotics, embedded systems,
-              perception, sensor fusion, and simulation-driven development.
-            </p>
-          </div>
-          <Card className="projects-note">
-            <div className="eyebrow">Counterpoint</div>
-            <h2>Each page enters from a different angle.</h2>
-            <div className="stack-sm">
-              <div className="glass-list-item">
-                <strong>F-18</strong>
-                Starts with recovery and proof.
-              </div>
-              <div className="glass-list-item">
-                <strong>SpiRob</strong>
-                Starts with hardware reality and mechanism feel.
-              </div>
-              <div className="glass-list-item">
-                <strong>SLAM / Vision</strong>
-                Start from workflow, architecture, and interpretation.
-              </div>
-            </div>
-          </Card>
-        </div>
-      </Section>
-
-      <Section id="case-studies">
         <div className="section-header">
-          <div className="eyebrow">Case studies</div>
-          <h2>Projects with current read depth</h2>
+          <div className="eyebrow">Selected projects</div>
+          <h1>Proof first.</h1>
+          <p>
+            Three top entries carry the portfolio. Everything else supports them.
+          </p>
         </div>
         <div className="project-grid project-grid--three">
-          {caseStudyProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+          {featuredProjects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} featured />
           ))}
         </div>
       </Section>
 
       <Section id="additional-studies">
         <div className="section-header">
-          <div className="eyebrow">Additional studies</div>
-          <h2>Focused work beyond the flagship pages</h2>
+          <div className="eyebrow">Additional work</div>
+          <h2>Focused studies beyond the top three</h2>
         </div>
         <div className="project-grid">
           {additionalStudies.map((project, index) => (
             <ProjectCard
               key={project.id}
               project={project}
-              index={caseStudyProjects.length + index}
+              index={featuredProjects.length + index}
             />
           ))}
         </div>
@@ -1001,17 +868,13 @@ function ResumePage() {
           <Card className="profile-card resume-sheet">
             <div className="page-mark">Movement II / Profile and record</div>
             <div className="badge-row">
-              <Badge tone="inverted">Resume / profile</Badge>
-              <Badge tone="muted">Controls • Robotics • Autonomy</Badge>
+              <Badge tone="inverted">Resume</Badge>
+              <Badge tone="muted">Practical fit</Badge>
             </div>
-            <h1>Engineering profile and experience</h1>
-            <p>
-              Mechanical engineer focused on controls, autonomy, robotics, and
-              simulation-heavy engineering. This page bridges the case studies and the
-              formal resume version used for applications.
-            </p>
+            <h1>Resume, role fit, and the fastest proof.</h1>
+            <p>{resumeContent.profileStatement}</p>
             <div className="info-grid">
-              {resumeContent.profileBullets.map((item) => (
+              {resumeContent.roleFit.map((item) => (
                 <div key={item} className="glass-list-item">
                   {item}
                 </div>
@@ -1035,35 +898,25 @@ function ResumePage() {
 
           <div className="resume-rail">
             <Card className="resume-note">
-              <div className="eyebrow">Public default</div>
-              <h2>Controls and autonomy first.</h2>
+              <div className="eyebrow">Use this page for</div>
+              <h2>Resume first. Case study second.</h2>
               <p>
-                The published resume follows the same logic as the portfolio: lead with
-                aircraft controls, then widen into robotics, estimation, and systems work.
+                Open the resume, then go straight to the case study that matches the role.
               </p>
               <div className="stack-sm">
                 <div className="glass-list-item">
-                  <strong>Best fit now</strong>
-                  Controls, autonomy, GNC, and simulation-heavy engineering roles.
+                  <strong>Controls / autonomy</strong>
+                  Start with the controls resume, then F-18.
                 </div>
                 <div className="glass-list-item">
-                  <strong>Parallel versions</strong>
-                  Robotics/embedded and research-heavy variants are already compiled.
+                  <strong>Robotics / embedded</strong>
+                  Use the same resume, then open SpiRob.
+                </div>
+                <div className="glass-list-item">
+                  <strong>Perception / navigation</strong>
+                  Use SLAM or Vision as the follow-up proof.
                 </div>
               </div>
-            </Card>
-            <Card className="media-summary-card resume-portrait">
-              <div className="eyebrow">Portfolio-aligned snapshot</div>
-              <h2>Case-study-first applications</h2>
-              <AssetPanel
-                item={{
-                  title: "Profile image",
-                  caption: "Headshot used alongside resume and portfolio materials.",
-                  src: siteContent.owner.headshot,
-                  type: "image",
-                }}
-                fit="cover"
-              />
             </Card>
           </div>
         </div>
@@ -1072,38 +925,15 @@ function ResumePage() {
       <Section id="experience">
         <SectionIntro
           index="01"
-          eyebrow="Experience highlights"
-          title="High-signal experience areas"
-          body="This page is not a duplicate of the PDF. It is the quick-reading version of the same professional identity, arranged around the strongest lanes and evidence."
+          eyebrow="Highlights"
+          title="Four quick reasons this profile fits"
+          body="Short version of the resume, without repeating the whole PDF."
         />
-        <div className="stack-md resume-stack">
+        <div className="info-grid resume-highlight-grid">
           {resumeContent.highlights.map((item, index) => (
             <Card key={item.title} className={`text-card resume-card resume-card--${(index % 2) + 1}`}>
               <h3>{item.title}</h3>
               <p>{item.body}</p>
-            </Card>
-          ))}
-        </div>
-      </Section>
-
-      <Section id="skills">
-        <SectionIntro
-          index="02"
-          eyebrow="Skill buckets"
-          title="Technical range, kept readable"
-          body="The point here is not to throw every tool at the screen. It is to show the recurring disciplines that appear across the portfolio and the resume versions."
-        />
-        <div className="bucket-grid bucket-grid--resume">
-          {resumeContent.skillBuckets.map((bucket) => (
-            <Card key={bucket.title} className="text-card">
-              <h3>{bucket.title}</h3>
-              <div className="chip-row">
-                {bucket.items.map((item) => (
-                  <Badge key={item} tone="muted">
-                    {item}
-                  </Badge>
-                ))}
-              </div>
             </Card>
           ))}
         </div>
@@ -1115,48 +945,37 @@ function ResumePage() {
 function AboutPage() {
   return (
     <div className="shell page-stack about-page page-phase-wrap page-phase-wrap--about">
-      <LorenzAttractor />
       <Section id="about">
         <div className="about-layout">
           <Card className="profile-card about-sheet">
             <div className="page-mark">Movement III / Working philosophy</div>
             <div className="badge-row">
               <Badge tone="inverted">About</Badge>
-              <Badge tone="muted">Engineer • Researcher • Builder</Badge>
+              <Badge tone="muted">Short version</Badge>
             </div>
-            <h1>I find engineering genuinely interesting — all of it.</h1>
+            <h1>Curious, technical, and more practical than I sound in person.</h1>
             <p>
-              Nonlinear control, soft robotics, SLAM, embedded systems — these aren't adjacent disciplines
-              I happened to touch. They're the same conversation at different scales, and I find moving
-              between them useful. The math is consistent even when the hardware is not.
+              I like work that moves between modeling, implementation, and interpretation. The domain can change.
+              The underlying systems thinking usually does not.
             </p>
             <p>
-              I'm jaded about abstractions that don't survive contact with a real system, and excited about
-              the ones that do. The portfolio is built around projects that earned their validation.
+              I trust results more when they survive contact with hardware, runtime constraints, or a difficult simulation.
             </p>
           </Card>
 
           <div className="about-rail">
             <Card className="about-note">
-              <div className="eyebrow">Operating principle</div>
+              <div className="eyebrow">Working philosophy</div>
               <h2>Build, understand, explain.</h2>
               <p>
-                The sequence matters. You have to make the thing, then understand why it behaves
-                the way it does, then explain it in a way that's legible to someone else.
-                Skipping any of those steps is just vibes.
+                That sequence matters. If one of those steps is weak, the engineering usually is too.
               </p>
               <div className="stack-sm">
                 <div className="glass-list-item">
-                  <strong>On precision</strong>
-                  Seriousness should be obvious without needing to announce itself.
+                  Seriousness should be obvious without being announced.
                 </div>
                 <div className="glass-list-item">
-                  <strong>On aesthetics</strong>
-                  Engineering and art are the same conversation written in different notation.
-                </div>
-                <div className="glass-list-item">
-                  <strong>On hardware</strong>
-                  The bench always has the final word. The simulation just gets to go first.
+                  The bench usually teaches more than the first clean model.
                 </div>
               </div>
             </Card>
@@ -1164,23 +983,9 @@ function AboutPage() {
               <div className="eyebrow">Chaos corner</div>
               <h2>Deterministic, then rude.</h2>
               <p>
-                Five identical systems, except for an initial perturbation on the order
-                of <code>10^-6</code>. Then the trajectories start disagreeing.
+                Small perturbation, large disagreement. Real systems do this a lot.
               </p>
               <DoublePendulum />
-            </Card>
-            <Card className="media-summary-card">
-              <div className="eyebrow">The hardware says hello</div>
-              <h2>Real systems, printed parts, and wires with opinions.</h2>
-              <AssetPanel
-                item={{
-                  title: "SpiRob hardware close-up",
-                  caption: "Printed segment geometry — courtesy of a Sovol 3D with something to prove.",
-                  src: "/assets/spirob/441898208-e35ee814-b298-4bb8-a3fc-6146c4e591f1.jpg",
-                  type: "image",
-                }}
-                fit="cover"
-              />
             </Card>
           </div>
         </div>
@@ -1189,9 +994,9 @@ function AboutPage() {
       <Section id="about-themes">
         <SectionIntro
           index="01"
-          eyebrow="Themes"
-          title="What keeps showing up regardless of the project"
-          body="Aircraft control, cable robots, SLAM pipelines, and computer vision — different domains, same recurring ideas. These are the things I keep returning to."
+          eyebrow="Principles"
+          title="A few things that keep showing up"
+          body="Same habits, different systems."
         />
         <div className="about-voronoi-wrap">
           <div className="bucket-grid bucket-grid--about">
@@ -1218,122 +1023,86 @@ function ContactPage() {
             <div className="page-mark">Coda / Contact and next step</div>
             <div className="badge-row">
               <Badge tone="inverted">Contact</Badge>
-              <Badge tone="muted">Low-friction outreach</Badge>
-            </div>
-            <div className="contact-stability-badge">
-              <span className="contact-stability-dot" />
-              system: asymptotically stable
+              <Badge tone="muted">Action first</Badge>
             </div>
             <h1>Get in touch.</h1>
             <p>
-              As it turns out, reaching out has pretty good phase margin. All poles are in the left-half plane,
-              the gain margin is adequate, and I respond to well-framed emails faster than a stepper motor
-              with a full step driver.
+              Email for roles or real conversations. GitHub, LinkedIn, and the resume are here if you want the fastest possible context.
             </p>
+            <div className="button-row">
+              <Button as="a" href={`mailto:${siteContent.owner.email}`}>
+                <Icon name="mail" className="icon icon--sm" /> Email
+              </Button>
+              <Button as="a" href={siteContent.owner.resumePdf} target="_blank" rel="noreferrer" variant="secondary">
+                <Icon name="file" className="icon icon--sm" /> Resume
+              </Button>
+            </div>
             <div className="contact-signal-grid">
-              <div className="glass-list-item">
-                <strong>Best fit</strong>
-                Controls, autonomy, robotics, simulation, and anything that requires
-                both a model and a screwdriver.
-              </div>
-              <div className="glass-list-item">
-                <strong>Best approach</strong>
-                Short, specific, and with a clear next move. Context first, attachment second.
-              </div>
+              {contactLinks.map((link, index) => (
+                <Button
+                  key={link.label}
+                  as="a"
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  variant="surface"
+                  className={`contact-card contact-card--${(index % 2) + 1}`}
+                >
+                  <div className="icon-bubble">
+                    <Icon name={link.icon} className="icon" />
+                  </div>
+                  <div className="contact-card__index">{String(index + 1).padStart(2, "0")}</div>
+                  <strong>{link.label}</strong>
+                  <span>{link.value}</span>
+                </Button>
+              ))}
             </div>
           </Card>
           <div className="contact-rail">
             <Card className="contact-note">
-              <div className="eyebrow">Response style</div>
-              <h2>Direct, technical, easy to route.</h2>
+              <div className="eyebrow">Best next move</div>
+              <h2>Lead with the role, then the matching proof.</h2>
               <p>
-                The goal is an obvious next step: open the resume, click into a case study,
-                or send a note. No friction, no ambiguity, no lengthy PDF attached to a cold email.
+                Short outreach, one clear role, one or two links that actually match.
               </p>
-            </Card>
-            <Card className="contact-note contact-note--alt">
-              <div className="eyebrow">H(s) = best first move</div>
-              <h2>Resume, flagship, conversation.</h2>
-              <p>
-                For roles: controls resume → F-18 or SpiRob → everything else if needed.
-                The transfer function is short and the poles are stable.
-              </p>
-            </Card>
-            <div className="contact-bode-footnote" aria-hidden="true">
-              <div className="contact-bode-footnote__label">
-                // Bode plot · phase margin: adequate
+              <div className="stack-sm contact-note__routes">
+                <div className="glass-list-item">
+                  <strong>Controls / autonomy</strong>
+                  Resume + F-18.
+                </div>
+                <div className="glass-list-item">
+                  <strong>Robotics / embedded</strong>
+                  Resume + SpiRob.
+                </div>
+                <div className="glass-list-item">
+                  <strong>Perception / navigation</strong>
+                  SLAM or Vision.
+                </div>
               </div>
-              <ContactBodePlot />
-            </div>
+              <div className="home-preview-list home-preview-list--compact">
+                {siteContent.projectPreview.map((item, index) => (
+                  <Link key={item.route} to={item.route} className="home-preview-item">
+                    <span className="home-preview-item__index">{String(index + 1).padStart(2, "0")}</span>
+                    <div>
+                      <strong>{item.title}</strong>
+                      <span>{item.body}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </Card>
           </div>
         </div>
-      </Section>
-
-      <Section id="contact-links">
-        <SectionIntro
-          index="01"
-          eyebrow="Reach out"
-          title="Choose the channel that matches the question"
-          body="Email for roles and real conversations. GitHub and resume for immediate proof. LinkedIn for the low-friction public layer. Response time: bounded."
-        />
-        <div className="contact-grid contact-grid--authored">
-          {contactLinks.map((link, index) => (
-            <Button
-              key={link.label}
-              as="a"
-              href={link.href}
-              target="_blank"
-              rel="noreferrer"
-              variant="surface"
-              className={`contact-card contact-card--${(index % 2) + 1}`}
-            >
-              <div className="icon-bubble">
-                <Icon name={link.icon} className="icon" />
-              </div>
-              <div className="contact-card__index">{String(index + 1).padStart(2, "0")}</div>
-              <strong>{link.label}</strong>
-              <span>{link.value}</span>
-            </Button>
-          ))}
-        </div>
-      </Section>
-
-      <Section id="contact-coda">
-        <Card className="contact-coda">
-          <div className="page-mark">Final cue / Suggested first move</div>
-          <div className="contact-coda__grid">
-            <div>
-              <h2>Lead with the role. The proof does the rest.</h2>
-              <p>
-                Short outreach, clear problem space, one or two case-study links that actually match.
-                The transfer function from cold email to interview is shorter than you'd think
-                if the numerator is specific.
-              </p>
-            </div>
-            <div className="stack-sm">
-              <div className="glass-list-item">
-                <strong>Controls / GNC / Autonomy</strong>
-                Controls resume + F-18 first. That page was designed for this exact path.
-              </div>
-              <div className="glass-list-item">
-                <strong>Robotics / embedded / mechatronics</strong>
-                SpiRob first — hardware, firmware, mechanism, and enough 3D printer character to be real.
-              </div>
-              <div className="glass-list-item">
-                <strong>Perception / SLAM / navigation</strong>
-                SLAM page, then Vision. The portfolio has a perception story now.
-              </div>
-            </div>
-          </div>
-        </Card>
       </Section>
     </div>
   );
 }
 
-function ProjectCard({ project, index = 0 }) {
+function ProjectCard({ project, index = 0, featured = false }) {
   return (
-    <Card className={`project-card project-card--${project.id} project-card--v${(index % 3) + 1}`}>
+    <Card
+      className={`project-card project-card--${project.id} project-card--v${(index % 3) + 1}${featured ? " project-card--featured" : ""}`}
+    >
       <div className="project-card__meta">
         <span className="project-card__index">{String(index + 1).padStart(2, "0")}</span>
         <Badge tone="muted">{project.status}</Badge>
@@ -1346,19 +1115,16 @@ function ProjectCard({ project, index = 0 }) {
       </div>
       <h3>{project.title}</h3>
       <p>{project.hook}</p>
+      <div className="project-card__evidence">
+        <strong>Evidence</strong>
+        <span>{project.evidenceCue}</span>
+      </div>
       <div className="chip-row">
         {project.tags.map((tag) => (
           <Badge key={tag} tone="muted">
             {tag}
           </Badge>
         ))}
-      </div>
-      <div className="project-card__tempo">
-        {project.id === "f18" && "Adagio / stability under disturbance"}
-        {project.id === "spirob" && "Rubato / mechanism, cable, wave"}
-        {project.id === "slam" && "Staccato / trajectory, drift, alignment"}
-        {project.id === "vision" && "Ostinato / zones, posture, alerts"}
-        {project.id === "sensorfusion" && "Andante / fusion under dropout"}
       </div>
       <Button as={Link} to={`/projects/${project.id}`}>
         Open case study <Icon name="arrow" className="icon icon--sm" />

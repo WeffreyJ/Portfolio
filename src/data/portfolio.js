@@ -21,19 +21,21 @@ export const siteContent = {
     eyebrow: "Controls • Robotics • Autonomy • Embedded Systems",
     headline:
       "I build things that either converge — or teach me exactly why they don't.",
+    subhead:
+      "Controls, autonomy, robotics, embedded systems, and simulation-heavy engineering.",
     body:
-      "Nonlinear aircraft control, cable-driven soft robots, SLAM pipelines, embedded systems, and enough simulation to have opinions about numerical integrators. This portfolio is built around case studies that show what was actually modeled — including the parts that didn't work cleanly the first time.",
+      "Case studies in nonlinear flight control, cable-driven robotics, SLAM, and applied vision, built around what was modeled, tested, and made legible.",
     primaryCta: "View selected projects",
     secondaryCta: "Open F-18 case study",
   },
   summary: {
     title: "The work, distilled",
     body:
-      "Not a showcase of everything touched. A curated set of case studies where the modeling decisions, implementation choices, and evaluation evidence are legible — for engineers, collaborators, and anyone who wants to understand what was actually built.",
+      "A small set of case studies chosen for clear evidence, readable engineering decisions, and direct hiring relevance.",
     notes: [
-      "Flagship proofs are separated from supporting depth so the strongest work is immediately findable",
-      "F-18 and SpiRob anchor the controls and robotics narrative — SLAM adds the perception dimension",
-      "Media and structure are designed to carry more evidence without changing the page architecture",
+      "Start with F-18 for controls, SpiRob for hardware, and SLAM for perception and navigation.",
+      "Each page is built around evidence rather than a generic project summary.",
+      "Supporting work stays available without competing with the strongest proof.",
     ],
   },
   homeSignals: [
@@ -57,17 +59,17 @@ export const siteContent = {
   projectPreview: [
     {
       title: "F-18 Flight Control",
-      body: "Nonlinear control, RL evaluation, FlightGear visualization, and open-loop versus closed-loop evidence.",
+      body: "Nonlinear control, RL evaluation, and open-loop versus closed-loop evidence.",
       route: "/projects/f18",
     },
     {
       title: "SpiRob Soft Robot",
-      body: "Physical robotics, embedded actuation, wave-motion behavior, and the bridge from hardware into modeling.",
+      body: "Physical robotics, embedded actuation, and a clean bridge from hardware into modeling.",
       route: "/projects/spirob",
     },
     {
       title: "Stereo SLAM",
-      body: "Perception-oriented mapping and pose-visualization work that broadens the portfolio beyond controls alone.",
+      body: "Perception and trajectory-inspection work that broadens the portfolio beyond controls alone.",
       route: "/projects/slam",
     },
   ],
@@ -89,46 +91,51 @@ export const heroProjects = [
     id: "f18",
     title: "Nonlinear F-18 Flight Control",
     hook:
-      "Classical plus reinforcement-learning control on a NASA-derived nonlinear aircraft model, organized as a technical case study with validation-focused visuals.",
+      "Classical plus RL control on a NASA-derived nonlinear aircraft model.",
     tags: ["Nonlinear Control", "RL", "Aircraft Dynamics", "Simulation"],
     icon: "plane",
     status: "Flagship case study",
+    evidenceCue: "FlightGear closed-loop video, recovery plots, and open-loop contrast.",
   },
   {
     id: "spirob",
     title: "SpiRob Cable-Driven Soft Robot",
     hook:
-      "Embedded cable actuation, mechatronic prototyping, and wave-based motion control for a spinal-inspired robot with real hardware evidence.",
+      "Cable-driven soft robot with embedded actuation, wave motion, and real hardware evidence.",
     tags: ["Robotics", "Embedded", "Arduino", "Mechatronics"],
     icon: "waves",
     status: "Flagship case study",
+    evidenceCue: "Hardware photos, motion clips, embedded bench setup, and simulation files.",
   },
   {
     id: "slam",
     title: "Stereo SLAM for UAV Workflows",
     hook:
-      "Perception-oriented SLAM experimentation focused on trajectory inspection, scene reconstruction, and making navigation outputs interpretable.",
+      "Stereo SLAM workflow focused on reconstruction, trajectory inspection, and readable outputs.",
     tags: ["SLAM", "UAV", "Perception", "Trajectory Analysis"],
     icon: "eye",
     status: "Case study",
+    evidenceCue: "Reconstruction view, pose viewer, workflow video, and repo-backed pipeline.",
   },
   {
     id: "sensorfusion",
     title: "Sensor Fusion Navigation",
     hook:
-      "EKF-based IMU plus GPS state estimation built for robustness under dropout and noisy measurements.",
+      "EKF-based IMU and GPS state estimation under dropout and noisy measurements.",
     tags: ["Sensor Fusion", "EKF", "Navigation"],
     icon: "cpu",
     status: "Exploratory study",
+    evidenceCue: "Estimation study organized around dropout robustness and navigation behavior.",
   },
   {
     id: "vision",
     title: "Vision Safety Monitoring System",
     hook:
-      "OpenCV-based safety-monitoring pipeline with interactive no-go zones, posture labels, and entry or exit alerts.",
+      "OpenCV monitoring pipeline with no-go zones, posture labels, and entry or exit alerts.",
     tags: ["Computer Vision", "YOLO", "Python"],
     icon: "eye",
     status: "Case study",
+    evidenceCue: "Repo-backed architecture, runtime interaction, and logged alert artifacts.",
   },
 ];
 
@@ -155,21 +162,34 @@ export const supportingProjects = [
 ];
 
 export const resumeContent = {
+  profileStatement:
+    "Mechanical engineer building across controls, autonomy, robotics, embedded systems, and simulation-heavy workflows.",
+  roleFit: [
+    "Controls, autonomy, and GNC roles",
+    "Robotics, embedded, and mechatronics roles",
+    "Simulation-heavy systems engineering",
+    "Research-oriented engineering teams",
+  ],
   highlights: [
     {
       title: "Graduate Research Assistant — Aircraft Control and Autonomy",
       body:
-        "Developed and evaluated nonlinear flight-control workflows around a NASA-derived F-18 model, combining classical control ideas, reinforcement learning, rollout analysis, and visualization-driven validation.",
+        "Built nonlinear flight-control workflows around a NASA-derived F-18 model and evaluated them through simulation, rollout analysis, and visual validation.",
     },
     {
       title: "Embedded and Controls Engineering Work",
       body:
-        "Built hands-on control and firmware systems across robotics and device-oriented prototypes, including Arduino and ESP32 logic, actuator control, and safety-minded embedded development.",
+        "Built firmware and control logic across robotics and device prototypes, including Arduino and ESP32 systems, actuators, and safety-minded embedded behavior.",
+    },
+    {
+      title: "Perception and Navigation Workflows",
+      body:
+        "Added SLAM, state-estimation, and vision workflows that make the portfolio broader than pure controls while staying systems-oriented.",
     },
     {
       title: "Research and Technical Communication",
       body:
-        "Produced technically rigorous documentation, simulation studies, and research-oriented writeups across control theory, robotics, and autonomy-adjacent systems.",
+        "Produce technical writeups, simulation studies, and case-study pages that make the engineering decisions readable.",
     },
   ],
   skillBuckets: [
@@ -196,20 +216,16 @@ export const resumeContent = {
 
 export const aboutThemes = [
   {
-    title: "The math either works or tells you something more interesting about why it doesn't.",
-    body: "Every project here has a real validation loop. Closed-loop plots, hardware evidence, pose-viewer outputs — the proof has to be legible, not assumed.",
+    title: "Validation matters.",
+    body: "Plots, hardware, and estimation outputs need to be readable enough to support a real engineering claim.",
   },
   {
-    title: "Controls, robotics, and autonomy are the same conversation at different scales.",
-    body: "An aircraft stabilizing under disturbance and a cable robot bending into a wave are governed by the same ideas. The details are delightfully different.",
+    title: "The same ideas travel well.",
+    body: "Aircraft control, soft robotics, and SLAM look different, but the underlying systems thinking carries across them.",
   },
   {
-    title: "Hardware always has the last word. Simulation is a polite first draft.",
-    body: "Modeling is essential. But the bench has opinions the model didn't anticipate, and that gap is usually where the interesting engineering happens.",
-  },
-  {
-    title: "Good engineering is also good storytelling — the evidence has to be legible.",
-    body: "I care about explaining work as much as doing it. A technically correct result that no one can follow is an incomplete result.",
+    title: "Simulation is not the end of the story.",
+    body: "The bench, the runtime, and the failure mode usually teach more than the first clean model does.",
   },
 ];
 
