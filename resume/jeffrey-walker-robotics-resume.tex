@@ -1,0 +1,166 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage[margin=0.62in]{geometry}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{parskip}
+
+\definecolor{linkcolour}{rgb}{0,0.22,0.55}
+\hypersetup{
+    colorlinks=true,
+    urlcolor=linkcolour,
+    linkcolor=linkcolour
+}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\titleformat{\section}{\large\bfseries\scshape}{}{0em}{}[\titlerule]
+\titlespacing{\section}{0pt}{7pt}{4pt}
+
+\newenvironment{role}[4]
+{
+\begin{tabularx}{\textwidth}{@{}l Y r@{}}
+\textbf{#1} & \textit{#2, #3} & #4
+\end{tabularx}
+\vspace{-0.45em}
+\begin{itemize}[leftmargin=1.15em, itemsep=0.14em, topsep=0.15em]
+}
+{
+\end{itemize}
+\vspace{0.05em}
+}
+
+\newenvironment{project}[3]
+{
+\begin{tabularx}{\textwidth}{@{}l Y r@{}}
+\textbf{#1} & \textit{#2} & #3
+\end{tabularx}
+\vspace{-0.45em}
+\begin{itemize}[leftmargin=1.15em, itemsep=0.14em, topsep=0.15em]
+}
+{
+\end{itemize}
+\vspace{0.05em}
+}
+
+\begin{document}
+
+\begin{center}
+    {\LARGE \textbf{Jeffrey Walker}}\\[0.28em]
+    \href{mailto:jfw69@drexel.edu}{jfw69@drexel.edu}
+    \quad $|$ \quad
+    +1 (445) 214-3307
+    \quad $|$ \quad
+    \href{https://github.com/WeffreyJ}{github.com/WeffreyJ}
+    \quad $|$ \quad
+    \href{https://www.linkedin.com/in/jeffrey-walker-4b2314218/}{linkedin.com/in/jeffrey-walker-4b2314218}
+    \quad $|$ \quad
+    Philadelphia, PA
+\end{center}
+
+\section*{Summary}
+
+Robotics and embedded systems engineer with hands-on experience across cable-driven soft robotics, embedded medical devices, industrial automation prototyping, computer vision, and simulation-backed control work. Strongest evidence comes from real hardware integration, microcontroller-based actuation, sensor and motor interfacing, and building systems that connect mechanical design, firmware, and experimental validation.
+
+\section{Skills}
+
+\textbf{Embedded \& Robotics:} Arduino, ESP32, Raspberry Pi, NVIDIA Orin Nano, actuator and sensor integration, motor control, serial interfaces, PLC logic, electromechanical debugging
+
+\textbf{Software \& Tools:} Python, C/C++, MATLAB, Git, OpenCV, ROS, MuJoCo, Gazebo, Docker
+
+\textbf{Mechanical \& Build:} SolidWorks, GD\&T, 3D printing, CNC, lathe, drilling, prototyping, machine design, mechatronic integration
+
+\section{Education}
+
+\begin{tabularx}{\textwidth}{@{}l Y r@{}}
+\textbf{Drexel University} & M.S. Mechanical Engineering, Robotics, Systems \& Controls focus & 2023--2025 \\
+& Thesis: \textit{Advanced Flight Control for Nonlinear Aircraft Models (NASA F-18)} & Philadelphia, PA
+\end{tabularx}
+
+\vspace{0.2em}
+
+\begin{tabularx}{\textwidth}{@{}l Y r@{}}
+\textbf{Kwame Nkrumah University of Science and Technology} & B.S. Automotive Engineering & 2019--2023 \\
+& Project: \textit{Volkswagen Transporter redesign and electrification} & Kumasi, Ghana
+\end{tabularx}
+
+\section{Experience}
+
+\begin{role}
+{Controls and Embedded Systems Intern -- Medical Devices}
+{T.I. Inc}
+{Pennsylvania}
+{Sep 2024 -- Feb 2025}
+    \item Developed embedded control and interface logic for neonatal medical-device subsystems using Arduino, ESP32, C/C++, and Python.
+    \item Integrated sensors, actuators, displays, and motor drivers into electromechanical prototypes with real-time response constraints.
+    \item Implemented watchdog behavior, fail-safe logic, and structured test workflows to improve prototype reliability in a regulated environment.
+\end{role}
+
+\begin{role}
+{Industrial Automation Systems Researcher}
+{Drexel University -- Prof. Dela Fuentes}
+{Philadelphia, PA}
+{May 2024 -- Present}
+    \item Conceptualized closed-loop industrial automation architectures using sensing, actuation, and PLC-oriented logic.
+    \item Built prototype hardware using additive and subtractive manufacturing workflows at the Drexel Innovation Studio.
+    \item Supported system design at the intersection of controls, automation, prototyping, and manufacturability.
+\end{role}
+
+\begin{role}
+{Automotive Engineering Workshop Staff / Engineer}
+{KNUST}
+{Kumasi, Ghana}
+{Nov 2022 -- Sep 2023}
+    \item Supported workshop engineering activities spanning manufacturing, maintenance, prototyping, and vehicle-system troubleshooting.
+    \item Used CNC, lathe, and drilling machines to manufacture or refine automotive components, contributing to a reported \textbf{10\% reduction in part failure rates}.
+    \item Supported maintenance and diagnostic work on more than \textbf{60 vehicles}, strengthening hands-on mechanical and systems intuition.
+\end{role}
+
+\section{Selected Projects}
+
+\begin{project}
+{SpiRob Cable-Driven Soft Robot}
+{Embedded Control / Soft Robotics / Mechatronics}
+{2024}
+    \item Developed a spinal-inspired soft robot with cable actuation, stepper-motor control, and modular embedded logic for wave-like motion experiments.
+    \item Combined physical prototyping, embedded actuation, and MuJoCo-oriented modeling to connect hardware work with future autonomy and control development.
+\end{project}
+
+\begin{project}
+{Vision Safety Monitoring System}
+{Computer Vision / OpenCV / Monitoring}
+{2025 -- 2026}
+    \item Built an OpenCV-based monitoring pipeline with interactive no-go zones, posture labeling, event detection, and alert logging.
+    \item Designed the workflow for live or file-based execution with practical operator interaction and deployment-oriented structure.
+\end{project}
+
+\begin{project}
+{Stereo SLAM Pipeline for UAV Workflows}
+{SLAM / Perception / Evaluation}
+{2025}
+    \item Built a stereo SLAM workflow with KITTI-style data recording, pluggable backend structure, and trajectory evaluation.
+    \item Structured the project around pose visualization, alignment, and interpretation for robotics-navigation experimentation.
+\end{project}
+
+\begin{project}
+{Nonlinear F-18 Flight Control}
+{Controls / Simulation / Evaluation}
+{2024 -- 2025}
+    \item Built validation workflows around a nonlinear aircraft model using MATLAB/Simulink, FlightGear, and controller comparison.
+    \item Reinforced systems-level thinking across modeling, software, instrumentation, and interpretation.
+\end{project}
+
+\section{Honors}
+
+\begin{itemize}[leftmargin=1.15em, itemsep=0.14em, topsep=0.15em]
+    \item \textbf{Dean's Fellowship}, Drexel University \hfill 2023 -- 2025
+    \item \textbf{Leroy L. Resser Endowment Scholarship} \hfill 2024
+    \item \textbf{College of Engineering Student Ambassador}, Drexel University \hfill 2024 -- 2025
+\end{itemize}
+
+\end{document}

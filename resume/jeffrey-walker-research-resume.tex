@@ -1,0 +1,166 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage[margin=0.62in]{geometry}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{parskip}
+
+\definecolor{linkcolour}{rgb}{0,0.22,0.55}
+\hypersetup{
+    colorlinks=true,
+    urlcolor=linkcolour,
+    linkcolor=linkcolour
+}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\titleformat{\section}{\large\bfseries\scshape}{}{0em}{}[\titlerule]
+\titlespacing{\section}{0pt}{7pt}{4pt}
+
+\newenvironment{role}[4]
+{
+\begin{tabularx}{\textwidth}{@{}l Y r@{}}
+\textbf{#1} & \textit{#2, #3} & #4
+\end{tabularx}
+\vspace{-0.45em}
+\begin{itemize}[leftmargin=1.15em, itemsep=0.14em, topsep=0.15em]
+}
+{
+\end{itemize}
+\vspace{0.05em}
+}
+
+\newenvironment{project}[3]
+{
+\begin{tabularx}{\textwidth}{@{}l Y r@{}}
+\textbf{#1} & \textit{#2} & #3
+\end{tabularx}
+\vspace{-0.45em}
+\begin{itemize}[leftmargin=1.15em, itemsep=0.14em, topsep=0.15em]
+}
+{
+\end{itemize}
+\vspace{0.05em}
+}
+
+\begin{document}
+
+\begin{center}
+    {\LARGE \textbf{Jeffrey Walker}}\\[0.28em]
+    \href{mailto:jfw69@drexel.edu}{jfw69@drexel.edu}
+    \quad $|$ \quad
+    +1 (445) 214-3307
+    \quad $|$ \quad
+    \href{https://github.com/WeffreyJ}{github.com/WeffreyJ}
+    \quad $|$ \quad
+    \href{https://www.linkedin.com/in/jeffrey-walker-4b2314218/}{linkedin.com/in/jeffrey-walker-4b2314218}
+    \quad $|$ \quad
+    Philadelphia, PA
+\end{center}
+
+\section*{Summary}
+
+Graduate researcher in control systems, autonomy, and robotics with work spanning nonlinear aircraft dynamics, robust control, reinforcement learning, state estimation, SLAM, and embedded experimentation. Strong fit for advanced R\&D and research-heavy roles that require rigorous modeling, honest evaluation, and the ability to translate mathematical or simulation work into clear technical evidence.
+
+\section{Research Areas}
+
+\textbf{Control \& Learning:} nonlinear control, robust control, reinforcement learning, controller comparison, rollout analysis, Monte Carlo robustness analysis
+
+\textbf{Estimation \& Perception:} EKF-based sensor fusion, SLAM workflows, trajectory alignment, localization analysis, computer-vision pipelines
+
+\textbf{Platforms \& Tools:} MATLAB, Simulink, FlightGear, Python, C/C++, ROS, MuJoCo, OpenCV, Git
+
+\section{Education}
+
+\begin{tabularx}{\textwidth}{@{}l Y r@{}}
+\textbf{Drexel University} & M.S. Mechanical Engineering, Robotics, Systems \& Controls focus & 2023--2025 \\
+& Thesis: \textit{Advanced Flight Control for Nonlinear Aircraft Models (NASA F-18)} & Philadelphia, PA
+\end{tabularx}
+
+\vspace{0.2em}
+
+\begin{tabularx}{\textwidth}{@{}l Y r@{}}
+\textbf{Kwame Nkrumah University of Science and Technology} & B.S. Automotive Engineering & 2019--2023 \\
+& Project: \textit{Volkswagen Transporter redesign and electrification} & Kumasi, Ghana
+\end{tabularx}
+
+\section{Research Experience}
+
+\begin{role}
+{Graduate Research Assistant -- Aircraft GNC \& Autonomy}
+{Drexel University}
+{Philadelphia, PA}
+{Jun 2024 -- Present}
+    \item Modeled and analyzed a 12-state nonlinear NASA-derived F-18 aircraft system across multiple operating regimes for advanced flight-control research.
+    \item Designed and evaluated classical and learning-based controllers including LQR, sliding-mode control, robust-control variants, and reinforcement learning agents.
+    \item Benchmarked controller behavior under disturbance, sensor noise, delays, and actuator saturation, with evaluated runs showing up to \textbf{61\% reduction in peak state excursions} across primary stability-related states.
+    \item Built validation workflows in MATLAB/Simulink and FlightGear and authored thesis-level documentation covering architecture, assumptions, controller comparisons, and evaluation results.
+\end{role}
+
+\begin{role}
+{Aerospace Controller Design Researcher}
+{Drexel University -- Prof. Bor Ching Chang}
+{Philadelphia, PA}
+{Jul 2024 -- Present}
+    \item Supported aerospace controls research involving robust controller design with $H_2$ and $H_\infty$ methods.
+    \item Contributed to modeling, simulation, and controller-development workflows in MATLAB/Simulink for high-precision aerospace applications.
+\end{role}
+
+\begin{role}
+{Industrial Automation Systems Researcher}
+{Drexel University -- Prof. Dela Fuentes}
+{Philadelphia, PA}
+{May 2024 -- Present}
+    \item Conceptualized closed-loop industrial automation architectures using sensing, actuation, and PLC-oriented logic.
+    \item Built prototype hardware using additive and subtractive manufacturing workflows to support controls and automation experimentation.
+\end{role}
+
+\section{Selected Research Projects}
+
+\begin{project}
+{Nonlinear F-18 Flight Control}
+{Controls / RL / Simulation}
+{2024 -- 2025}
+    \item Built a nonlinear aircraft control workflow around a NASA-derived F-18 model using classical control and reinforcement learning methods.
+    \item Organized the project around open-loop versus closed-loop comparison, FlightGear visualization, and technical interpretation instead of abstract AI claims.
+\end{project}
+
+\begin{project}
+{AeroPendulum Reinforcement Learning Control}
+{Controls / RL / MATLAB-Simulink}
+{2025 -- 2026}
+    \item Built aeropendulum control workflows using reinforcement-learning methods and simulation-backed evaluation tooling.
+    \item Compared learning-based behavior against classical control baselines in a dynamic systems setting relevant to controls and autonomy research.
+\end{project}
+
+\begin{project}
+{Sensor Fusion Navigation}
+{Estimation / EKF / Localization}
+{2025}
+    \item Implemented EKF-based fusion of IMU and GPS signals for ground-vehicle navigation under noisy measurements and intermittent dropout.
+    \item Studied localization behavior across representative trajectories with a focus on robustness and estimation quality.
+\end{project}
+
+\begin{project}
+{Stereo SLAM Pipeline for UAV Workflows}
+{SLAM / Perception / Evaluation}
+{2025}
+    \item Built a stereo SLAM workflow with KITTI-style data recording, pluggable backend structure, and trajectory evaluation.
+    \item Structured the project around pose visualization, alignment, and interpretation for robotics-navigation experimentation.
+\end{project}
+
+\section{Honors \& Academic Work}
+
+\begin{itemize}[leftmargin=1.15em, itemsep=0.14em, topsep=0.15em]
+    \item \textbf{Dean's Fellowship}, Drexel University \hfill 2023 -- 2025
+    \item \textbf{Leroy L. Resser Endowment Scholarship} \hfill 2024
+    \item \textbf{Master's Thesis:} \textit{F-18 Aircraft Dynamical Control Using Classical Control Methods and Reinforcement Learning: A Comprehensive Study}, Drexel University, Aug 2025
+    \item \textbf{College of Engineering Student Ambassador}, Drexel University \hfill 2024 -- 2025
+\end{itemize}
+
+\end{document}

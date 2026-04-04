@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 420">
+  <!-- Background blob -->
+  <circle cx="200" cy="210" r="200" fill="#211d1b"/>
+
+  <!-- Shirt / collar area -->
+  <path d="M120 380 Q160 350 200 360 Q240 350 280 380 L300 420 L100 420 Z" fill="#d27843"/>
+  <!-- Collar V -->
+  <path d="M170 360 L200 390 L230 360 Q200 370 170 360Z" fill="#b8612e"/>
+
+  <!-- Neck -->
+  <rect x="168" y="310" width="64" height="60" rx="18" fill="#c47a50"/>
+
+  <!-- Head -->
+  <ellipse cx="200" cy="205" rx="118" ry="128" fill="#c47a50"/>
+
+  <!-- Hair -->
+  <path d="M82 170 Q78 75 200 62 Q322 75 318 170 Q310 105 200 98 Q90 105 82 170Z" fill="#1e1612"/>
+  <!-- Hair top texture -->
+  <path d="M82 155 Q90 95 200 82 Q310 95 318 155 Q305 110 200 100 Q95 110 82 155Z" fill="#150e0b" opacity="0.6"/>
+  <!-- Side hair tufts -->
+  <path d="M82 170 Q72 145 78 120 Q85 150 90 165Z" fill="#1e1612"/>
+  <path d="M318 170 Q328 145 322 120 Q315 150 310 165Z" fill="#1e1612"/>
+
+  <!-- Ears -->
+  <ellipse cx="82" cy="210" rx="20" ry="26" fill="#c47a50"/>
+  <ellipse cx="82" cy="212" rx="11" ry="15" fill="#b86a40"/>
+  <ellipse cx="318" cy="210" rx="20" ry="26" fill="#c47a50"/>
+  <ellipse cx="318" cy="212" rx="11" ry="15" fill="#b86a40"/>
+
+  <!-- ── Glasses ── -->
+  <!-- Left lens frame -->
+  <rect x="96" y="180" width="82" height="56" rx="24" fill="rgba(26,18,12,0.08)" stroke="#1e1612" stroke-width="5"/>
+  <!-- Right lens frame -->
+  <rect x="222" y="180" width="82" height="56" rx="24" fill="rgba(26,18,12,0.08)" stroke="#1e1612" stroke-width="5"/>
+  <!-- Bridge -->
+  <line x1="178" y1="208" x2="222" y2="208" stroke="#1e1612" stroke-width="4.5" stroke-linecap="round"/>
+  <!-- Temple left -->
+  <line x1="96" y1="205" x2="82" y2="200" stroke="#1e1612" stroke-width="4" stroke-linecap="round"/>
+  <!-- Temple right -->
+  <line x1="304" y1="205" x2="318" y2="200" stroke="#1e1612" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Eyes (behind glasses) -->
+  <!-- Left eye white -->
+  <ellipse cx="137" cy="209" rx="22" ry="18" fill="#f9f5ef"/>
+  <!-- Right eye white -->
+  <ellipse cx="263" cy="209" rx="22" ry="18" fill="#f9f5ef"/>
+  <!-- Left iris -->
+  <circle cx="137" cy="210" r="12" fill="#2c1e18"/>
+  <!-- Right iris -->
+  <circle cx="263" cy="210" r="12" fill="#2c1e18"/>
+  <!-- Iris highlight left -->
+  <circle cx="142" cy="205" r="4.5" fill="white" opacity="0.9"/>
+  <!-- Iris highlight right -->
+  <circle cx="268" cy="205" r="4.5" fill="white" opacity="0.9"/>
+
+  <!-- Eyebrows -->
+  <path d="M103 172 Q137 160 170 168" fill="none" stroke="#1e1612" stroke-width="7" stroke-linecap="round"/>
+  <path d="M230 168 Q263 160 297 172" fill="none" stroke="#1e1612" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Nose -->
+  <ellipse cx="200" cy="248" rx="12" ry="9" fill="#b86a40" opacity="0.5"/>
+  <path d="M188 242 Q200 256 212 242" fill="none" stroke="#a85e38" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Smile / mouth -->
+  <path d="M158 272 Q200 310 242 272" fill="none" stroke="#1e1612" stroke-width="6" stroke-linecap="round"/>
+  <!-- Teeth -->
+  <clipPath id="smileclip">
+    <path d="M162 273 Q200 300 238 273 L238 285 Q200 308 162 285Z"/>
+  </clipPath>
+  <rect x="140" y="270" width="120" height="30" fill="white" clip-path="url(#smileclip)"/>
+  <!-- Tooth dividers -->
+  <line x1="200" y1="273" x2="200" y2="290" stroke="#e8e0d8" stroke-width="1.5" clip-path="url(#smileclip)"/>
+  <line x1="178" y1="273" x2="175" y2="289" stroke="#e8e0d8" stroke-width="1.5" clip-path="url(#smileclip)"/>
+  <line x1="222" y1="273" x2="225" y2="289" stroke="#e8e0d8" stroke-width="1.5" clip-path="url(#smileclip)"/>
+
+  <!-- Rosy cheeks -->
+  <ellipse cx="105" cy="255" rx="28" ry="17" fill="#e07860" opacity="0.28"/>
+  <ellipse cx="295" cy="255" rx="28" ry="17" fill="#e07860" opacity="0.28"/>
+
+  <!-- Tiny robot pin on collar (fun engineering detail) -->
+  <circle cx="200" cy="375" r="8" fill="#8ea1a8" opacity="0.85"/>
+  <rect x="196" y="371" width="8" height="6" rx="2" fill="#171413" opacity="0.7"/>
+  <circle cx="198" cy="373" r="1.5" fill="#d27843"/>
+  <circle cx="202" cy="373" r="1.5" fill="#d27843"/>
+</svg>

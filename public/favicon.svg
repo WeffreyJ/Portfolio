@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Jeffrey Walker favicon">
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="line" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#bg)" />
+  <path d="M28 98V30h14v56h22v12H28Zm44-68h14v31l26-31h15L96 67l32 31h-18L86 74v24H72V30Z" fill="#e2e8f0" />
+  <path d="M20 108h88" stroke="url(#line)" stroke-linecap="round" stroke-width="8" />
+</svg>
