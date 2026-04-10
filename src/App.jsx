@@ -29,6 +29,58 @@ import { LSystemBackdrop } from "./components/LSystemBackdrop";
 import { MandelbrotBackdrop } from "./components/MandelbrotBackdrop";
 import { VorticityFlowBackdrop } from "./components/VorticityFlowBackdrop";
 
+// ─── Grain texture layer ─────────────────────────────────────────────────────
+function GrainLayer() {
+  return <div className="grain-layer" aria-hidden="true" />;
+}
+
+// ─── Typewriter text — character-by-character reveal ─────────────────────────
+function TypewriterNote({ text }) {
+  const [chars, setChars] = useState(0);
+  useEffect(() => {
+    setChars(0);
+    if (!text) return;
+    let i = 0;
+    const id = setInterval(() => {
+      i++;
+      setChars(i);
+      if (i >= text.length) clearInterval(id);
+    }, 34);
+    return () => clearInterval(id);
+  }, [text]);
+  return (
+    <>
+      {text.slice(0, chars)}
+      {chars < text.length && <span className="typewriter-cursor" aria-hidden="true">_</span>}
+    </>
+  );
+}
+
+// ─── Scroll reveal manager — fades sections in as they enter the viewport ─────
+function ScrollRevealManager() {
+  const location = useLocation();
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+    const targets = document.querySelectorAll(".section-intro, .result-grid");
+    targets.forEach((el) => el.classList.add("scroll-pending"));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove("scroll-pending");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.06, rootMargin: "0px 0px -24px 0px" },
+    );
+    targets.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [location.pathname]);
+  return null;
+}
+
 // ─── Floating equations (engineering wallpaper) ──────────────────────────────
 function FloatingEquations({ equations }) {
   return (
@@ -611,7 +663,7 @@ function MarginNotes() {
       <div
         className={`margin-note ${note.anchor} margin-note--flow-${note.flow} margin-note--${note.phase}`.trim()}
       >
-        <span>{note.text}</span>
+        <span><TypewriterNote text={note.text} /></span>
       </div>
     </div>
   );
@@ -620,7 +672,9 @@ function MarginNotes() {
 function AppLayout() {
   return (
     <div className="app-shell">
+      <GrainLayer />
       <ScrollManager />
+      <ScrollRevealManager />
       <PageTransition />
       <MarginNotes />
       <TopNav />
@@ -2002,6 +2056,7 @@ function Footer() {
         <span className="footer__afterword-rule" />
         <p>Calm systems. Strange margins. Discipline you can actually read.</p>
         <PageFooterEq />
+        <code className="footer__build" title="Build SHA">{__GIT_SHA__}</code>
       </div>
     </footer>
   );
