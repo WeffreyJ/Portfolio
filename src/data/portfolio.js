@@ -529,14 +529,6 @@ export const projectPages = {
         type: "image",
       },
     ],
-    pendingAssets: [
-      {
-        title: "MuJoCo model screenshot",
-        caption: "Best next asset: one simulation render that ties the hardware to formal model structure.",
-        src: "/assets/spirob/mujoco-overview.png",
-        type: "image",
-      },
-    ],
     futureDirections: [
       "MuJoCo renders that connect the physical robot to a more formal model representation",
       "Annotated mechanism diagrams showing cable pull directions and segment behavior",

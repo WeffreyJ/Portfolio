@@ -1658,12 +1658,6 @@ function SpiRobPage() {
             </div>
           </Card>
           <div className="comparison-track">
-            <FeatureMedia
-              item={project.pendingAssets[0]}
-              className="feature-media--plot feature-media--pending"
-              fit="cover"
-              eyebrow="Pending simulation render"
-            />
             <ListCard title="Future directions" items={project.futureDirections} />
           </div>
         </div>
