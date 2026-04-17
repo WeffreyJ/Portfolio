@@ -42,12 +42,20 @@ body {
   min-width: 320px;
   font-family: "IBM Plex Sans", sans-serif;
   color: var(--text);
+  /* OpenType niceties: oldstyle figures (so dates sit on the baseline like words),
+     discretionary ligatures (st, ct in Cormorant), kerning. Invisible to most,
+     transcendent to typographers. Zero perf cost. */
+  font-feature-settings: "kern" 1, "liga" 1, "dlig" 1, "onum" 1, "calt" 1;
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Four-layer composition: amber warmth top-left, steel cool top-right,
+     horizontal rule stitching, and the base tonal gradient. Mid-page
+     radials were removed — less haze, more intention. */
   background:
-    radial-gradient(circle at 10% 4%, rgba(242, 236, 228, 0.1), transparent 20%),
-    radial-gradient(circle at 20% 8%, rgba(210, 120, 67, 0.15), transparent 28%),
-    radial-gradient(circle at 82% 10%, rgba(142, 161, 168, 0.14), transparent 30%),
-    radial-gradient(circle at 60% 28%, rgba(242, 236, 228, 0.05), transparent 24%),
-    radial-gradient(circle at 14% 78%, rgba(142, 161, 168, 0.07), transparent 26%),
+    radial-gradient(circle at 20% 8%, rgba(210, 120, 67, 0.16), transparent 30%),
+    radial-gradient(circle at 82% 10%, rgba(142, 161, 168, 0.14), transparent 32%),
     repeating-linear-gradient(
       180deg,
       rgba(255, 255, 255, 0.028) 0,
@@ -61,6 +69,16 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* Prettier headings and paragraphs: balance for headings (no single-word orphans),
+   pretty for paragraphs (avoids last-line widows). Progressive enhancement. */
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 button,
@@ -230,7 +248,8 @@ code {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  /* Generous inter-section rhythm — sections should breathe like stanzas, not paragraphs */
+  gap: 7rem;
   padding: 2.5rem 0 4.75rem;
 }
 
@@ -278,9 +297,11 @@ code {
 .brand__line {
   display: block;
   width: 84px;
-  height: 1px;
-  margin-top: 0.25rem;
-  background: linear-gradient(90deg, rgba(210, 120, 67, 0.6), rgba(242, 236, 228, 0.08));
+  /* 2px rule reads as a signature stroke rather than a hairline */
+  height: 2px;
+  margin-top: 0.3rem;
+  background: linear-gradient(90deg, rgba(210, 120, 67, 0.72), rgba(242, 236, 228, 0.08));
+  border-radius: 1px;
 }
 
 .brand__eyebrow,
@@ -393,6 +414,13 @@ code {
 .top-nav__mobile {
   display: none;
   padding-bottom: 1rem;
+  /* Drawer slides in as a whole; children then stagger (see nth-child delays below) */
+  animation: slide-down 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .top-nav__mobile-sheet {
@@ -440,8 +468,9 @@ code {
   position: relative;
   margin: 0.2rem 0 1rem;
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(2rem, 6vw, 2.8rem);
-  line-height: 1;
+  /* Scaled down — this is drawer chrome, not a section title */
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  line-height: 1.08;
 }
 
 .top-nav__mobile-status {
@@ -490,9 +519,13 @@ code {
   font-size: 0.75rem;
 }
 
-.top-nav__mobile-list .mobile-link:nth-child(even) {
-  transform: translateX(0.7rem);
-}
+/* Progressive stagger — each link lands a beat after the last, not a zig-zag offset */
+.top-nav__mobile-list .mobile-link { animation: slide-down 320ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.top-nav__mobile-list .mobile-link:nth-child(1) { animation-delay: 0ms; }
+.top-nav__mobile-list .mobile-link:nth-child(2) { animation-delay: 40ms; }
+.top-nav__mobile-list .mobile-link:nth-child(3) { animation-delay: 80ms; }
+.top-nav__mobile-list .mobile-link:nth-child(4) { animation-delay: 120ms; }
+.top-nav__mobile-list .mobile-link:nth-child(5) { animation-delay: 160ms; }
 
 .top-nav__mobile-list .mobile-link:hover {
   transform: translateX(0.2rem) rotate(-0.2deg);
@@ -550,8 +583,21 @@ code {
 .text-card h2 {
   margin: 0;
   font-family: "Cormorant Garamond", serif;
-  line-height: 0.96;
   letter-spacing: -0.02em;
+}
+
+/* Hero/section title leading — 0.96 was collision-prone on two-line headings */
+.hero-copy h1,
+.profile-card h1,
+.section-header h1 {
+  line-height: 1.04;
+}
+
+.section-header h2,
+.hero-summary h2,
+.media-summary-card h2,
+.text-card h2 {
+  line-height: 1.06;
 }
 
 .hero-copy h1,
@@ -572,6 +618,15 @@ code {
   color: var(--text-soft);
   line-height: 1.82;
   margin: 0 0 0.1em;
+}
+
+/* Keep body copy at a readable measure even inside wide card layouts */
+.text-card p,
+.card > p,
+.supporting-card p,
+.hero-copy > p {
+  max-width: 68ch;
+  line-height: 1.75;
 }
 
 .hero-copy {
@@ -912,11 +967,13 @@ code {
 
 .about-theme--2 {
   transform: none;
+  will-change: transform;
   border-radius: var(--radius);
 }
 
 .about-theme--3 {
   transform: none;
+  will-change: transform;
   border-radius: var(--radius);
 }
 
@@ -1016,13 +1073,14 @@ code {
   max-width: 68ch;
 }
 
-/* Copy block is transparent — text lives directly over the phase portrait */
+/* Copy block is transparent — text lives directly over the phase portrait.
+   Generous top/bottom so the hero has room to resonate. */
 .home-score__copy {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
-  padding: 3.2rem 0 2.2rem;
+  gap: 1.5rem;
+  padding: 5rem 0 3rem;
   background: transparent;
   border: none;
   box-shadow: none;
@@ -1061,11 +1119,14 @@ code {
 
 .home-cards-strip .hero-summary {
   transform: translateY(1.2rem) rotate(-0.2deg);
+  /* Promote rotated cards to their own layer to prevent subpixel paint bleed on adjacent rules */
+  will-change: transform;
   border-radius: 16px 22px 20px 14px;
 }
 
 .home-cards-strip .fourier-card {
   transform: translateY(-0.6rem) rotate(0.4deg);
+  will-change: transform;
   border-radius: 58% 42% 52% 48% / 44% 56% 44% 56%;
   padding: 1.6rem 1.2rem;
   align-self: start;
@@ -1090,7 +1151,10 @@ code {
   position: relative;
   z-index: 1;
   margin: 0;
-  max-width: 34rem;
+  /* Hug the text and sit under a quiet underline — reads as a byline, not a paragraph */
+  max-width: fit-content;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(142, 161, 168, 0.18);
   color: var(--steel);
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.88rem;
@@ -1113,11 +1177,12 @@ code {
   margin: -0.35rem 0 0;
   max-width: 42rem;
   color: #f6f1ea;
+  /* Reads as a subtitle (not another uppercase label).
+     The eyebrow/kicker do the label work; this one is a sentence. */
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  line-height: 1.8;
-  text-transform: uppercase;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  line-height: 1.7;
 }
 
 .home-score__body {
@@ -1142,6 +1207,8 @@ code {
 
 .home-feature-card {
   display: grid;
+  /* Space the rows so the cue locks to the bottom edge, filling the 12.5rem card */
+  align-content: space-between;
   gap: 0.55rem;
   padding: 1rem 1.1rem;
   min-height: 12.5rem;
@@ -1185,6 +1252,8 @@ code {
 }
 
 .home-feature-card__cue {
+  /* Anchor cue to bottom so uneven body text doesn't leave a ragged edge */
+  margin-top: auto;
   color: var(--steel);
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.7rem;
@@ -1249,18 +1318,21 @@ code {
 
 .home-rail-card--lead {
   transform: translateX(-0.5rem);
+  will-change: transform;
   border-radius: 20px 26px 18px 24px;
 }
 
 /* Fourier card: organic blob shape — a doodle, not a box */
 .home-rail-card--math {
   transform: translateX(1.4rem) translateY(-1rem) rotate(0.5deg);
+  will-change: transform;
   border-radius: 58% 42% 52% 48% / 44% 56% 44% 56%;
   padding: 2rem 1.6rem 1.8rem;
 }
 
 .home-rail-card--quiet {
   transform: translateX(0.6rem) translateY(0.6rem) rotate(-0.25deg);
+  will-change: transform;
   border-radius: 16px 24px 18px 22px;
 }
 
@@ -1272,14 +1344,19 @@ code {
   border-radius: 20px 26px 18px 24px;
 }
 
+/* Fourier card: organic blob shape — a doodle, not a box.
+   (Previously this lived in a later !important override; merged here for a single source of truth.) */
 .fourier-card {
   position: relative;
   overflow: hidden;
   padding: 1.3rem;
+  max-width: none;
+  border-radius: 58% 42% 52% 48% / 44% 56% 44% 56%;
+  border-color: rgba(210, 120, 67, 0.12);
   background:
     linear-gradient(135deg, rgba(139, 155, 175, 0.09), transparent 52%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 44%),
-    rgba(27, 24, 22, 0.84);
+    rgba(21, 18, 17, 0.88);
 }
 
 .fourier-card::before {
@@ -1396,13 +1473,22 @@ code {
 }
 
 .tile-card h3,
-.project-card h3,
-.supporting-card h3,
 .text-card h3,
+.card h3,
 .asset-panel__body h3 {
   margin: 0;
   font-family: "Cormorant Garamond", serif;
-  font-size: 1.2rem;
+  /* Clearer step from body (1rem) to title — establishes card hierarchy */
+  font-size: 1.35rem;
+  line-height: 1.22;
+}
+
+.project-card h3,
+.supporting-card h3 {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.3rem;
+  line-height: 1.22;
 }
 
 .tile-card {
@@ -2059,26 +2145,38 @@ code {
   margin-bottom: 1.4rem;
 }
 
+/* Index counter — small amber numeral followed by a short vertical rule.
+   This is the one load-bearing moment for the accent: elsewhere it's decoration,
+   here it structures the section. */
 .section-intro__index {
   position: relative;
-  padding-top: 0.2rem;
-  color: var(--page-ink);
+  padding-top: 0.3rem;
+  color: var(--accent);
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.78rem;
-  letter-spacing: 0.18em;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
 }
 
 .section-intro__index::after {
   content: "";
   display: block;
-  width: 48px;
-  height: 1px;
-  margin-top: 0.9rem;
-  background: linear-gradient(90deg, var(--page-accent), rgba(142, 161, 168, 0.08));
+  width: 2px;
+  height: 1.5rem;
+  margin-top: 0.55rem;
+  background: linear-gradient(180deg, var(--accent) 0%, rgba(210, 120, 67, 0.18) 85%, transparent 100%);
+  border-radius: 1px;
 }
 
 .section-intro__content {
   max-width: 58rem;
+  /* Tighten the eyebrow-to-title step so the amber index feels tied to a single unit */
+  display: grid;
+  gap: 0.45rem;
+}
+
+.section-intro__content .eyebrow {
+  margin-bottom: 0;
 }
 
 .section-intro__content h2 {
@@ -2640,10 +2738,27 @@ code {
   align-items: start;
 }
 
+.footer__identity {
+  position: relative;
+  /* Quiet amber rule above the name — a signature line */
+  padding-top: 0.9rem;
+}
+
+.footer__identity::before {
+  content: "";
+  display: block;
+  width: 42px;
+  height: 2px;
+  margin-bottom: 0.65rem;
+  background: linear-gradient(90deg, rgba(210, 120, 67, 0.72), rgba(210, 120, 67, 0.08));
+  border-radius: 1px;
+}
+
 .footer__identity strong {
   display: block;
   font-family: "Cormorant Garamond", serif;
   font-size: 1.5rem;
+  letter-spacing: 0.005em;
 }
 
 .footer__note {
@@ -2672,16 +2787,21 @@ code {
 }
 
 .footer__afterword {
-  display: grid;
-  grid-template-columns: 120px minmax(0, 1fr) auto auto;
-  gap: 1rem;
+  /* Flex row so the rule, paragraph, equation, and SHA flow naturally and wrap on narrow viewports */
+  display: flex;
   align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
   margin-top: 1.4rem;
 }
 
 .footer__afterword-rule {
+  /* In flex context the rule needs an explicit basis; keep it visible but let it flex */
+  flex: 0 0 120px;
+}
+
+.footer__afterword-rule {
   display: block;
-  width: 100%;
   height: 1px;
   background: linear-gradient(90deg, rgba(210, 120, 67, 0.56), rgba(242, 236, 228, 0.08));
 }
@@ -3219,7 +3339,8 @@ code {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #4ade80;
+  /* Warm grey-green — reads as a "live" indicator without clashing with the amber/steel palette */
+  background: rgba(180, 220, 180, 0.9);
   flex-shrink: 0;
   animation: dot-pulse 2.8s ease-in-out infinite;
 }
@@ -3388,18 +3509,6 @@ code {
   user-select: none;
   pointer-events: none;
   animation: eq-float 22s 1.2s ease-in-out infinite alternate;
-}
-
-/* ═══════════════════════════════════════════════════════════════════
-   FOURIER DOODLE — margin sketch, blob shape
-   ═══════════════════════════════════════════════════════════════════ */
-
-/* Override the original squared fourier-card definition above */
-.fourier-card {
-  max-width: none !important;
-  border-radius: 58% 42% 52% 48% / 44% 56% 44% 56% !important;
-  background: rgba(21, 18, 17, 0.88) !important;
-  border-color: rgba(210, 120, 67, 0.12) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -3652,5 +3761,276 @@ code {
   .app-shell::before,
   .app-shell::after {
     opacity: 0.6;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PLATE NUMBER — gallery catalog marker on project cards
+   "PLATE · IX" in small caps with a hand-drawn ink rule.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.project-card {
+  /* Give the plate room to sit top-right without crowding the meta row */
+  padding-top: 2.4rem;
+}
+
+.plate {
+  position: absolute;
+  top: 0.9rem;
+  right: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding-left: 0.4rem;
+  z-index: 2;
+  pointer-events: none;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(210, 120, 67, 0.7);
+}
+
+.plate__label {
+  opacity: 0.62;
+}
+
+/* Hand-drawn ink rule — a slightly irregular hairline, the mark of a catalog */
+.plate__rule {
+  display: block;
+  width: 18px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(210, 120, 67, 0.9) 12%,
+    rgba(210, 120, 67, 0.55) 68%,
+    transparent 100%
+  );
+}
+
+.plate__num {
+  /* Cormorant italic gives the numeral a little calligraphic breath */
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  opacity: 0.92;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   EPIGRAPH — chapter-opener quote. Italic serif, mono attribution.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.epigraph {
+  position: relative;
+  /* Negative top margin pulls the epigraph up against the nav so its chapter-opener
+     framing reads immediately. The 7rem page-stack gap below still provides breath. */
+  margin: -1.5rem 0 -4rem;
+  padding: 0.4rem 0 0.2rem 2.2rem;
+  max-width: 56ch;
+  z-index: 1;
+}
+
+.epigraph__mark {
+  position: absolute;
+  left: 0;
+  top: -0.3rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.8rem;
+  line-height: 1;
+  color: rgba(210, 120, 67, 0.34);
+  user-select: none;
+}
+
+.epigraph__line {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.08rem, 1.5vw, 1.35rem);
+  line-height: 1.5;
+  letter-spacing: 0.005em;
+  color: var(--text-soft);
+  text-wrap: balance;
+}
+
+.epigraph__cite {
+  display: block;
+  margin-top: 0.55rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-style: normal;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+@media (max-width: 680px) {
+  .epigraph {
+    margin-bottom: -1.6rem;
+    padding-left: 1.6rem;
+  }
+  .epigraph__mark {
+    font-size: 2.2rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ACCIDENT COLORS — one chromatic secondary per page. Amber stays
+   house accent everywhere; accident lives in a handful of places so
+   each page has a quiet chromatic signature. Painters will feel it.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --accident: rgba(210, 120, 67, 0.8);       /* default: amber itself */
+  --accident-soft: rgba(210, 120, 67, 0.22);
+}
+
+.home-page,
+.projects-page {
+  --accident: rgba(210, 120, 67, 0.82);
+  --accident-soft: rgba(210, 120, 67, 0.2);
+}
+
+.about-page {
+  /* Bruised indigo — cool, a little twilight. Reads as "reflection". */
+  --accident: #6f85a8;
+  --accident-soft: rgba(111, 133, 168, 0.22);
+}
+
+.resume-page {
+  /* Oxidized copper — warm, patinated, practical. */
+  --accident: #c0754a;
+  --accident-soft: rgba(192, 117, 74, 0.22);
+}
+
+.contact-page {
+  /* Muted oxblood — grounded, human, inviting. */
+  --accident: #a85858;
+  --accident-soft: rgba(168, 88, 88, 0.22);
+}
+
+/* Applications of --accident: the epigraph drop cap, the page-mark leading
+   rule, and a subtle tint on profile-card edges. Three touches per page —
+   enough to feel, not enough to compete with amber. */
+
+.about-page .epigraph__mark,
+.resume-page .epigraph__mark,
+.contact-page .epigraph__mark {
+  color: var(--accident);
+  opacity: 0.5;
+}
+
+.about-page .page-mark,
+.resume-page .page-mark,
+.contact-page .page-mark {
+  position: relative;
+  padding-left: 0.85rem;
+}
+
+.about-page .page-mark::before,
+.resume-page .page-mark::before,
+.contact-page .page-mark::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.2rem;
+  bottom: 0.2rem;
+  width: 2px;
+  background: var(--accident);
+  opacity: 0.72;
+  border-radius: 1px;
+}
+
+.about-page .profile-card,
+.resume-page .profile-card,
+.contact-page .profile-card {
+  /* Thin inner highlight on the card — felt more than seen */
+  box-shadow:
+    var(--shadow),
+    inset 1px 0 0 var(--accident-soft);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   JW MONOGRAM — the artist's signature. Fixed bottom-right, quiet
+   opacity. Draws once on first paint with stroke-dasharray, then rests.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.monogram {
+  position: fixed;
+  right: 1.35rem;
+  bottom: 1.1rem;
+  width: 54px;
+  height: 40px;
+  z-index: 8;
+  pointer-events: none;
+  opacity: 0;
+  color: var(--accent);
+  mix-blend-mode: screen;
+  animation: monogram-fade-in 1800ms 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.monogram__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Each stroke is given the same draw-once treatment. The path lengths are
+   estimated; 300 covers both paths comfortably. */
+.monogram__stroke {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: monogram-draw 2200ms 700ms cubic-bezier(0.6, 0.05, 0.25, 1) forwards;
+}
+
+.monogram__stroke--w {
+  animation-delay: 1300ms;
+}
+
+.monogram__dot {
+  stroke: none;
+  fill: currentColor;
+  opacity: 0;
+  animation: monogram-dot 400ms 3300ms ease forwards;
+}
+
+@keyframes monogram-fade-in {
+  to { opacity: 0.32; }
+}
+
+@keyframes monogram-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes monogram-dot {
+  to { opacity: 0.72; }
+}
+
+/* Respect the user's motion preferences — show the mark, skip the drawing */
+@media (prefers-reduced-motion: reduce) {
+  .monogram {
+    opacity: 0.32;
+    animation: none;
+  }
+  .monogram__stroke {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+  .monogram__dot {
+    opacity: 0.72;
+    animation: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .monogram {
+    width: 42px;
+    height: 32px;
+    right: 0.9rem;
+    bottom: 0.75rem;
   }
 }

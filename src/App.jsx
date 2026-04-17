@@ -34,6 +34,76 @@ function GrainLayer() {
   return <div className="grain-layer" aria-hidden="true" />;
 }
 
+// ─── Roman numerals — for gallery-style plate numbering on project cards ──────
+const ROMAN_MAP = [
+  [1000, "M"], [900, "CM"], [500, "D"], [400, "CD"],
+  [100, "C"], [90, "XC"], [50, "L"], [40, "XL"],
+  [10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"],
+];
+function toRoman(n) {
+  let num = Math.max(1, Math.floor(Number(n) || 0));
+  let out = "";
+  for (const [v, s] of ROMAN_MAP) {
+    while (num >= v) { out += s; num -= v; }
+  }
+  return out;
+}
+
+// ─── Plate number — gallery catalog style, with a hand-drawn ink rule ────────
+function PlateNumber({ n }) {
+  return (
+    <div className="plate" aria-hidden="true">
+      <span className="plate__label">Plate</span>
+      <span className="plate__rule" />
+      <span className="plate__num">{toRoman(n)}</span>
+    </div>
+  );
+}
+
+// ─── Epigraph — a quiet italic line that opens a page, like a chapter epigraph ─
+function Epigraph({ children, attribution }) {
+  return (
+    <blockquote className="epigraph" aria-label="Epigraph">
+      <span className="epigraph__mark" aria-hidden="true">❝</span>
+      <p className="epigraph__line">{children}</p>
+      <cite className="epigraph__cite">— {attribution}</cite>
+    </blockquote>
+  );
+}
+
+// ─── JW monogram — a signed mark, drawn once on first paint, then resting.
+//    Drawn as two overlapping strokes: a cursive J whose hook clasps the first
+//    stem of a four-stroke W. Intentionally imperfect — a hand, not a logo. ──
+function Monogram() {
+  return (
+    <div className="monogram" aria-hidden="true">
+      <svg
+        className="monogram__svg"
+        viewBox="0 0 96 72"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {/* J — top flourish, long stem, bottom hook curling left */}
+        <path
+          className="monogram__stroke monogram__stroke--j"
+          d="M 14 11 Q 21 7 30 11 M 25 10 C 25 20 26 38 25 46 C 24 56 14 58 8 52 C 6 50 6 47 8 46"
+        />
+        {/* W — four hand-drawn diagonals with a slight lift on the joins */}
+        <path
+          className="monogram__stroke monogram__stroke--w"
+          d="M 36 14 C 38 28 44 44 50 56 C 52 60 54 59 56 55 C 60 46 63 34 66 26 C 67 23 69 23 70 26 C 73 34 76 45 80 54 C 82 58 84 58 86 54 C 90 44 92 28 94 14"
+        />
+        {/* Small tittle — a painter's dot for the signature */}
+        <circle className="monogram__stroke monogram__dot" cx="34" cy="62" r="1.1" />
+      </svg>
+    </div>
+  );
+}
+
 // ─── Typewriter text — character-by-character reveal ─────────────────────────
 function TypewriterNote({ text }) {
   const [chars, setChars] = useState(0);
@@ -460,7 +530,8 @@ function ScrollManager() {
   const location = useLocation();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // "instant" so the jump doesn't fight the PageTransition fade overlay
+    window.scrollTo({ top: 0, behavior: "instant" });
   }, [location.pathname]);
 
   useEffect(() => {
@@ -690,6 +761,7 @@ function AppLayout() {
         </Routes>
       </main>
       <Footer />
+      <Monogram />
     </div>
   );
 }
@@ -788,7 +860,10 @@ function HomePage() {
   ];
 
   return (
-    <div className="shell page-stack">
+    <div className="shell page-stack home-page">
+      <Epigraph attribution="Wallace Stevens">
+        The real is only the base. But it is the base.
+      </Epigraph>
       <Section id="home">
         <div className="home-phase-wrap">
           <PhasePortrait />
@@ -845,7 +920,10 @@ function ProjectsPage() {
   );
 
   return (
-    <div className="shell page-stack">
+    <div className="shell page-stack projects-page">
+      <Epigraph attribution="Norbert Wiener, Cybernetics">
+        To live effectively is to live with adequate information.
+      </Epigraph>
       <Section id="projects">
         <div className="section-header">
           <div className="eyebrow">Selected projects</div>
@@ -917,6 +995,9 @@ function ProjectsPage() {
 function ResumePage() {
   return (
     <div className="shell page-stack resume-page">
+      <Epigraph attribution="Henry Petroski">
+        Form follows failure.
+      </Epigraph>
       <Section id="resume">
         <div className="resume-layout">
           <Card className="profile-card resume-sheet">
@@ -999,6 +1080,9 @@ function ResumePage() {
 function AboutPage() {
   return (
     <div className="shell page-stack about-page page-phase-wrap page-phase-wrap--about">
+      <Epigraph attribution="Gaston Bachelard, The Poetics of Space">
+        Space that has been seized upon by the imagination cannot remain indifferent space.
+      </Epigraph>
       <Section id="about">
         <div className="about-layout">
           <Card className="profile-card about-sheet">
@@ -1070,6 +1154,9 @@ function AboutPage() {
 function ContactPage() {
   return (
     <div className="shell page-stack contact-page page-phase-wrap page-phase-wrap--contact">
+      <Epigraph attribution="Rainer Maria Rilke">
+        Live the questions now.
+      </Epigraph>
       <Section id="contact">
         <div className="contact-layout">
           <Card className="profile-card contact-sheet contact-splane-wrap">
@@ -1157,6 +1244,7 @@ function ProjectCard({ project, index = 0, featured = false }) {
     <Card
       className={`project-card project-card--${project.id} project-card--v${(index % 3) + 1}${featured ? " project-card--featured" : ""}`}
     >
+      <PlateNumber n={index + 1} />
       <div className="project-card__meta">
         <span className="project-card__index">{String(index + 1).padStart(2, "0")}</span>
         <Badge tone="muted">{project.status}</Badge>
@@ -2056,7 +2144,9 @@ function Footer() {
         <span className="footer__afterword-rule" />
         <p>Calm systems. Strange margins. Discipline you can actually read.</p>
         <PageFooterEq />
-        <code className="footer__build" title="Build SHA">{__GIT_SHA__}</code>
+        <code className="footer__build" title="Build SHA">
+          {typeof __GIT_SHA__ !== 'undefined' ? __GIT_SHA__ : 'dev'}
+        </code>
       </div>
     </footer>
   );
